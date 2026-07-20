@@ -20,7 +20,6 @@ options:
   enable_workaround_509: false
   java_max_heap_size: "1024m"
   java_min_heap_size: "128m"
-  mongodb_wiredtiger_cache_size_gb: 0.25
 schema:
   enable_hass_ssl: bool
   certfile: str
@@ -28,7 +27,7 @@ schema:
   enable_workaround_509: bool
   java_max_heap_size: str
   java_min_heap_size: str
-  mongodb_wiredtiger_cache_size_gb: float
+  mongodb_wiredtiger_cache_size_gb: float?
 ports:
   8088/tcp: 8088
   8043/tcp: 8043

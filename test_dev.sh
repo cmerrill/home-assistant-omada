@@ -45,8 +45,7 @@ cat > "${TEST_DIR}/data/options.json" <<EOF
   "show_mongodb_logs": false,
   "show_server_logs": true,
   "java_max_heap_size": "1024m",
-  "java_min_heap_size": "128m",
-  "mongodb_wiredtiger_cache_size_gb": 0.25
+  "java_min_heap_size": "128m"
 }
 EOF
 

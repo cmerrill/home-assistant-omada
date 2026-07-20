@@ -56,14 +56,15 @@ killer, causing a restart crash loop. Three options are available to tune memory
 |---|---|---|
 | `java_max_heap_size` | `1024m` | JVM `-Xmx` (maximum heap size) |
 | `java_min_heap_size` | `128m` | JVM `-Xms` (initial heap size) |
-| `mongodb_wiredtiger_cache_size_gb` | `0.25` | MongoDB WiredTiger cache size in GB (minimum `0.25`) |
+| `mongodb_wiredtiger_cache_size_gb` | unset (MongoDB default, ~50% of system RAM) | MongoDB WiredTiger cache size in GB (minimum `0.25`) |
 
-By default, MongoDB's WiredTiger cache would otherwise grow to roughly 50% of available system
-RAM, which is the most common cause of OOM kills on small devices — that's why it's capped by
-default here. If you're still seeing OOM kills after upgrading to a version with these options,
-lower `java_max_heap_size` (e.g. to `512m`) as a further step, then restart the add-on and check
-the log for the JVM startup line (`'/usr/bin/java' '-server' '-Xms...' '-Xmx...'`) to confirm the
-new values took effect.
+All three options are left unset by default so existing installs see no behavior change on
+upgrade. If you're seeing OOM kills, the most effective single change is usually setting
+`mongodb_wiredtiger_cache_size_gb` to something like `0.25`–`0.5` — MongoDB's cache otherwise
+grows to roughly 50% of available system RAM, which is the most common cause of OOM kills on
+small devices. If that alone doesn't resolve it, also lower `java_max_heap_size` (e.g. to
+`512m`). After changing either, restart the add-on and check the log for the JVM startup line
+(`'/usr/bin/java' '-server' '-Xms...' '-Xmx...'`) to confirm the new values took effect.
 
 These map to the `JAVA_MAX_HEAP_SIZE` / `JAVA_MIN_HEAP_SIZE` / `MONGOD_EXTRA_ARGS` tuning
 documented by upstream [mbentley/docker-omada-controller](https://github.com/mbentley/docker-omada-controller),

@@ -3,10 +3,11 @@
 ## 5.15.24.19-ha1 2026-07-20
 
 - Added `java_max_heap_size`, `java_min_heap_size`, and `mongodb_wiredtiger_cache_size_gb`
-  configuration options to fix OOM crash loops on memory-constrained hosts (e.g. Home Assistant
-  Yellow). MongoDB's WiredTiger cache is now capped at 0.25 GB by default instead of growing
-  unbounded to ~50% of system RAM; JVM heap defaults are unchanged (`-Xms128m -Xmx1024m`) but are
-  now configurable. See the main README's "Memory Tuning" section.
+  configuration options to help with OOM crash loops on memory-constrained hosts (e.g. Home
+  Assistant Yellow). All three are unset by default, so existing installs see no behavior
+  change on upgrade. Setting `mongodb_wiredtiger_cache_size_gb` (e.g. `0.25`) is the most
+  effective option if you're hitting OOM kills, since MongoDB's WiredTiger cache otherwise
+  grows to ~50% of system RAM. See the main README's "Memory Tuning" section.
   Omada is still at 5.15.24.19; only the add-on configuration changed.
 
 ## 5.15.24.19 2025-08-02

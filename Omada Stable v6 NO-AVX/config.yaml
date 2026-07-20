@@ -23,7 +23,6 @@ options:
   show_server_logs: true
   java_max_heap_size: "1024m"
   java_min_heap_size: "128m"
-  mongodb_wiredtiger_cache_size_gb: 0.25
 schema:
   enable_hass_ssl: bool
   certfile: str
@@ -33,5 +32,5 @@ schema:
   show_server_logs: bool
   java_max_heap_size: str
   java_min_heap_size: str
-  mongodb_wiredtiger_cache_size_gb: float
+  mongodb_wiredtiger_cache_size_gb: float?
 host_network: true
