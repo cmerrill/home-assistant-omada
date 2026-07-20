@@ -15,13 +15,18 @@
 # work unmodified.
 FROM mbentley/ubuntu:20.04
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ENV LANG="C.UTF-8" \
     DEBIAN_FRONTEND="noninteractive"
 
 ARG BASHIO_REPOSITORY=hassio-addons/bashio
 ARG BASHIO_VERSION=0.17.5
 ARG S6_OVERLAY_REPOSITORY=just-containers/s6-overlay
-ARG S6_OVERLAY_VERSION=3.2.3.0
+# Pinned to match the exact version shipped in ghcr.io/home-assistant/amd64-base-ubuntu:24.04
+# (verified by pulling and inspecting that image's layers directly), not docker-base's master
+# branch, which has since moved past this.
+ARG S6_OVERLAY_VERSION=3.2.2.0
 
 ARG TARGETARCH
 RUN if [ -z "${TARGETARCH}" ]; then \
