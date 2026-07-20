@@ -20,6 +20,9 @@ options:
   upgrade_https_port: 8043
   show_mongodb_logs: false
   show_server_logs: true
+  java_max_heap_size: "1024m"
+  java_min_heap_size: "128m"
+  mongodb_wiredtiger_cache_size_gb: 0.25
 schema:
   enable_hass_ssl: bool
   certfile: str
@@ -27,4 +30,7 @@ schema:
   upgrade_https_port: int
   show_mongodb_logs: bool
   show_server_logs: bool
+  java_max_heap_size: str
+  java_min_heap_size: str
+  mongodb_wiredtiger_cache_size_gb: float
 host_network: true

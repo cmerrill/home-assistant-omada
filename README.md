@@ -46,6 +46,31 @@ To use a custom SSL certificate configured for Home Assistant:
    2. **Private key**
 3. The default paths are compatible with the `LetsEncrypt` add-on.
 
+### Memory Tuning
+
+On memory-constrained hosts (e.g. Home Assistant Yellow, Raspberry Pi with 4 GB RAM or less),
+the Omada Controller's JVM and its bundled MongoDB instance can be killed by the Linux OOM
+killer, causing a restart crash loop. Three options are available to tune memory usage:
+
+| Option | Default | Effect |
+|---|---|---|
+| `java_max_heap_size` | `1024m` | JVM `-Xmx` (maximum heap size) |
+| `java_min_heap_size` | `128m` | JVM `-Xms` (initial heap size) |
+| `mongodb_wiredtiger_cache_size_gb` | `0.25` | MongoDB WiredTiger cache size in GB (minimum `0.25`) |
+
+By default, MongoDB's WiredTiger cache would otherwise grow to roughly 50% of available system
+RAM, which is the most common cause of OOM kills on small devices — that's why it's capped by
+default here. If you're still seeing OOM kills after upgrading to a version with these options,
+lower `java_max_heap_size` (e.g. to `512m`) as a further step, then restart the add-on and check
+the log for the JVM startup line (`'/usr/bin/java' '-server' '-Xms...' '-Xmx...'`) to confirm the
+new values took effect.
+
+These map to the `JAVA_MAX_HEAP_SIZE` / `JAVA_MIN_HEAP_SIZE` / `MONGOD_EXTRA_ARGS` tuning
+documented by upstream [mbentley/docker-omada-controller](https://github.com/mbentley/docker-omada-controller),
+though this add-on wires the values into its own S6-managed service scripts rather than passing
+them through as environment variables, since this fork uses a custom entrypoint and MongoDB is
+managed as a separate S6 service rather than by the upstream `entrypoint.sh`.
+
 ## Cloudflare Tunnel
 
 If you are using a domain with Cloudflare for DNS,

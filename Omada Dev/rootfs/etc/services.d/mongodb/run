@@ -8,6 +8,14 @@ LOG_DIR="/opt/tplink/EAPController/logs"
 mkdir -p "$DATA_DIR" "$LOG_DIR"
 chown -R 508:508 "$DATA_DIR" "$LOG_DIR"
 
+# WiredTiger's cache otherwise defaults to ~50% of system RAM, which is the
+# dominant cause of OOM kills on memory-constrained hosts. Cap it explicitly.
+WIREDTIGER_CACHE_SIZE_GB="0.25"
+if bashio::config.has_value 'mongodb_wiredtiger_cache_size_gb'; then
+  WIREDTIGER_CACHE_SIZE_GB="$(bashio::config 'mongodb_wiredtiger_cache_size_gb')"
+fi
+
 exec gosu 508:508 mongod \
     --dbpath "$DATA_DIR" --port 27217 --bind_ip 127.0.0.1 \
-    --logpath "$LOG_DIR/mongod.log" --logappend
+    --logpath "$LOG_DIR/mongod.log" --logappend \
+    --wiredTigerCacheSizeGB "$WIREDTIGER_CACHE_SIZE_GB"

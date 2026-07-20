@@ -1,4 +1,15 @@
 #!/usr/bin/with-contenv bashio
 
+# JVM heap bounds are configurable to fit memory-constrained hosts; defaults
+# match the previous hardcoded values so behavior is unchanged unless set.
+JAVA_MIN_HEAP="128m"
+JAVA_MAX_HEAP="1024m"
+if bashio::config.has_value 'java_min_heap_size'; then
+  JAVA_MIN_HEAP="$(bashio::config 'java_min_heap_size')"
+fi
+if bashio::config.has_value 'java_max_heap_size'; then
+  JAVA_MAX_HEAP="$(bashio::config 'java_max_heap_size')"
+fi
+
 # start the controller
-exec /entrypoint.sh /usr/bin/java -server -Xms128m -Xmx1024m -XX:MaxHeapFreeRatio=60 -XX:MinHeapFreeRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/tplink/EAPController/logs/java_heapdump.hprof -Djava.awt.headless=true --add-opens java.base/java.util=ALL-UNNAMED -cp /opt/tplink/EAPController/lib/*::/opt/tplink/EAPController/properties: com.tplink.smb.omada.starter.OmadaLinuxMain
+exec /entrypoint.sh /usr/bin/java -server -Xms"${JAVA_MIN_HEAP}" -Xmx"${JAVA_MAX_HEAP}" -XX:MaxHeapFreeRatio=60 -XX:MinHeapFreeRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/tplink/EAPController/logs/java_heapdump.hprof -Djava.awt.headless=true --add-opens java.base/java.util=ALL-UNNAMED -cp /opt/tplink/EAPController/lib/*::/opt/tplink/EAPController/properties: com.tplink.smb.omada.starter.OmadaLinuxMain
