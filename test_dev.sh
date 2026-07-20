@@ -43,7 +43,9 @@ cat > "${TEST_DIR}/data/options.json" <<EOF
   "keyfile": "/ssl/privkey.pem",
   "upgrade_https_port": 8043,
   "show_mongodb_logs": false,
-  "show_server_logs": true
+  "show_server_logs": true,
+  "java_max_heap_size": "1024m",
+  "java_min_heap_size": "128m"
 }
 EOF
 

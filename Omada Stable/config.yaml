@@ -1,7 +1,7 @@
 ---
 name: Omada Controller Stable
-image: jeruntu/home-assistant-omada-stable
-version: 5.15.24.19
+image: cmerrillgh/home-assistant-omada-stable
+version: 5.15.24.19-ha1
 slug: omada_controller_stable
 description: TP-Link Omada Controller software
 webui: https://[HOST]:[PORT:8043]
@@ -18,11 +18,16 @@ options:
   certfile: /ssl/fullchain.pem
   keyfile: /ssl/privkey.pem
   enable_workaround_509: false
+  java_max_heap_size: "1024m"
+  java_min_heap_size: "128m"
 schema:
   enable_hass_ssl: bool
   certfile: str
   keyfile: str
   enable_workaround_509: bool
+  java_max_heap_size: str
+  java_min_heap_size: str
+  mongodb_wiredtiger_cache_size_gb: float?
 ports:
   8088/tcp: 8088
   8043/tcp: 8043
