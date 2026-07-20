@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Fixed the image build, which had been broken since the shared Dockerfile moved to
+  `ubuntu:24.04` for v6 support: `mongodb-server-core` (the package this variant's MongoDB
+  install depends on) no longer exists in any current Ubuntu release, and no version of
+  MongoDB compatible with Omada v5.x is available from MongoDB's official apt repo either.
+  This never surfaced in CI because a version tag that already exists is never rebuilt.
+  This variant now builds from a dedicated `stable-v5.dockerfile` on `mbentley/ubuntu:20.04`
+  (the base this add-on used for all targets before that switch, still carrying a working
+  `mongodb-server-core`), with s6-overlay and bashio installed manually since that base
+  doesn't include them the way the Home Assistant base images do.
+
 ## 5.15.24.19-ha1 2026-07-20
 
 - Added `java_max_heap_size`, `java_min_heap_size`, and `mongodb_wiredtiger_cache_size_gb`
