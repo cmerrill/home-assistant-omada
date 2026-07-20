@@ -1,6 +1,6 @@
 ---
 name: Omada Controller Stable v6
-image: jeruntu/home-assistant-omada-stable-v6
+image: cmerrillgh/home-assistant-omada-stable-v6
 version: 6.2.14.11-ha1
 slug: omada_controller_stable_v6
 description: TP-Link Omada Controller software

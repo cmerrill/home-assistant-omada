@@ -1,6 +1,6 @@
 ---
 name: Omada Controller Stable NO-AVX
-image: jeruntu/home-assistant-omada-stable-no-avx
+image: cmerrillgh/home-assistant-omada-stable-no-avx
 version: 6.1.0.19-ha1
 slug: omada_controller_stable_no_avx
 description: TP-Link Omada Controller software (No AVX support for older CPUs)
