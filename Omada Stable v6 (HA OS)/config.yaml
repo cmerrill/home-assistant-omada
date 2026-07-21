@@ -10,7 +10,7 @@ stop_timeout: 60
 arch:
   - aarch64
 init: false
-url: https://github.com/jkunczik/home-assistant-omada
+url: https://github.com/cmerrill/home-assistant-omada
 map:
   - ssl
 options:
